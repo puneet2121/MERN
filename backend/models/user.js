@@ -15,6 +15,10 @@ const userSchema = new Schema({
   maxlength: 32,
   trim:true
  },
+ userinfo: {
+  type: String,
+  trim: true
+ },
  email: {
   type: String,
   required: true,
@@ -37,3 +41,5 @@ const userSchema = new Schema({
  }
 
 });
+
+module.exports = mongoose.model("User",userSchema)
