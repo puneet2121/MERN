@@ -1,70 +1,65 @@
-const mongoose = require("mongoose");
-const crypto = require("node:crypto");
-const uuidv1 = require("uuid");
+var mongoose = require("mongoose");
+const crypto = require("crypto");
+const uuidv1 = require("uuid/v1");
 
-const { Schema } = mongoose;
-
-const userSchema = new Schema(
+var userSchema = new mongoose.Schema(
   {
     name: {
       type: String,
       required: true,
       maxlength: 32,
-      trim: true,
+      trim: true
     },
     lastname: {
       type: String,
-      required: false,
       maxlength: 32,
-      trim: true,
-    },
-    userinfo: {
-      type: String,
-      trim: true,
+      trim: true
     },
     email: {
       type: String,
-      required: true,
       trim: true,
-      unique: true,
-    },
-    enc_password: {
-      type: String,
       required: true,
+      unique: true
+    },
+    userinfo: {
+      type: String,
+      trim: true
+    },
+    encry_password: {
+      type: String,
+      required: true
     },
     salt: String,
-
     role: {
       type: Number,
-      default: 0,
+      default: 0
     },
     purchases: {
       type: Array,
-      default: [],
-    },
+      default: []
+    }
   },
   { timestamps: true }
 );
+
 userSchema
   .virtual("password")
-  .set(function (password) {
-    this.password = password;
+  .set(function(password) {
+    this._password = password;
     this.salt = uuidv1();
-    this.enc_password = this.securePassword(password);
+    this.encry_password = this.securePassword(password);
   })
-  .get(function () {
+  .get(function() {
     return this._password;
   });
 
-userSchema.method = {
-  autheticate: function (plainpassword) {
-    return this.securePassword(plainpassword) === this.enc_password;
+userSchema.methods = {
+  autheticate: function(plainpassword) {
+    return this.securePassword(plainpassword) === this.encry_password;
   },
 
-  securePassword: function (plainpassword) {
-    if (!plainpassword) {
-      return "";
-    }
+  securePassword: function(plainpassword) {
+    if (!plainpassword) return "";
     try {
       return crypto
         .createHmac("sha256", this.salt)
@@ -73,6 +68,7 @@ userSchema.method = {
     } catch (err) {
       return "";
     }
-  },
+  }
 };
+
 module.exports = mongoose.model("User", userSchema);
