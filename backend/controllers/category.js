@@ -25,3 +25,46 @@ exports.createCategory = (req,res) => {
   })
 
 }
+
+exports.getCategory = (req,res) => {
+  return res.json(req.category);
+}
+
+exports.getAllCategory = (req,res) => {
+  Category.find().exec((err, items) => {
+    if(err) {
+      return res.status(400).json({
+        error: 'Not found(categories)'
+      });
+    }
+    res.json(items);
+  });
+}
+
+exports.updateCategory = (req,res) => {
+  const category = req.category;
+  category.name = req.body.name;
+
+  category.save((err,updatedCategory) => {
+    if(err) {
+      return res.status(400).json({
+        error: 'Unable to update the category'
+      });
+    }
+    res.json(updatedCategory);
+  })
+}
+
+exports.deleteCategory = (req,res) => {
+  const category = req.category;
+  category.remove((err,category) => {
+    if(err) {
+      return res.status(400).json({
+        error: 'Unable to delete the category)'
+      });
+    }
+    res.json({
+      message: `this ${category} was sucessfully deleted`
+    });
+  });
+}
