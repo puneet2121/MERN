@@ -5,7 +5,11 @@ require('dotenv').config()
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
+
+//all Routes
 const authRoutes = require('./routes/auth');
+const userRoutes = require('./routes/user');
+const categoryRoutes = require('./routes/category');
 
 //Middlewares
 app.use(bodyParser.json());
@@ -23,6 +27,8 @@ mongoose.connect(process.env.DATABASE,
 
 //Routes
 app.use('/api',authRoutes);
+app.use('/api',userRoutes);
+app.use('/api',categoryRoutes);
 
 //PORT
 const port = process.env.PORT || 8000;
