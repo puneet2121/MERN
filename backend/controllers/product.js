@@ -28,7 +28,19 @@ exports.createProduct = (req,res) => {
       });
     }
     //destructure the fields
-    const {name, description} = fields;
+    const {name, description, price, category, stock, } = fields;
+    if(
+      !name ||
+      !description ||
+      !price ||
+      !category ||
+      !stock
+    ) {
+      return res.status(400).json( {
+        error: 'Please include all fields'
+      });
+    }
+
     let product = new Product(fields)
 
     //handle the file
