@@ -21,7 +21,7 @@ exports.createProduct = (req,res) => {
   let form = new formidable.IncomingForm();
   form.keepExtensions = true;
 
-  from.parse(req,(err, fields, file) => {
+  form.parse(req,(err, fields, file) => {
     if(err) {
       return res.status(400).json({
         error: "Problems with Image"

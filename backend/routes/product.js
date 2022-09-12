@@ -10,6 +10,10 @@ router.param('userId',getUserById);
 router.param('product',getProductById)
 
 //routes
-router.post('/product/create/:userId',isSignedIn, isAuth, isAdmin,createProduct)
+router.post('/product/create/:userId',
+isSignedIn, 
+isAuth,
+isAdmin,
+createProduct)
 
 module.exports = router;
