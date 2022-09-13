@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const {createProduct,getProductById} = require('../controllers/product');
+const {createProduct,getProductById,getproduct,photo,updateProduct,deleteProduct} = require('../controllers/product');
 const {isSignedIn, isAuth, isAdmin} = require('../controllers/auth');
 const {getUserById} = require('../controllers/user');
 
@@ -16,4 +16,27 @@ isAuth,
 isAdmin,
 createProduct)
 
+
+//Read routes
+router.get('/product/:productId',getproduct)
+router.get('/product/photo/:productId',photo)
+
+
+//Update routes
+router.put('/product/:productId/:userId',
+isSignedIn, 
+isAuth,
+isAdmin,
+updateProduct
+)
+
+//Delete routes
+router.delete('/product/:productId/:userId',
+isSignedIn, 
+isAuth,
+isAdmin,
+deleteProduct
+)
+
+//listing routes
 module.exports = router;
