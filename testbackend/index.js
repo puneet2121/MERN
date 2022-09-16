@@ -17,6 +17,15 @@ app.get('/',(req,res) => {
 app.get('/signout',(req,res) => {
   res.send('you are signed out')
 })
+const admin = (req,res) => {
+  res.send('this is the admin dashboard')
+}
+const isLogin = (req,res,next) => {
+  console.log('is logged in ');
+  next();
+}
+app.get('/admin',isLogin, admin)
+
 app.get('/signup',(req,res) => {
   res.send('you are signed up')
 })
